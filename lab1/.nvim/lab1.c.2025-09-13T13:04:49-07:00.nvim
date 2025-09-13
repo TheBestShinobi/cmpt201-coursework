@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+  char* buffer[100];
+  char* tokenized[100];
+  int size = 0;
+
+
+  // Get input from user
+  printf("Please enter some text: ", stdout);
+  getline(buffer, 99, stdout);
+
+  // Tokenize the input
+  tokenized = strtok_r(*input, " ", tokenized);
+
+
+  // Print out tokenized input
+  printf("\nTokens:\n", stdout);
+  while(tokenized != NULL) {
+
+
+  }
+}
