@@ -1,0 +1,32 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main() {
+
+// Variables
+char *input = NULL;
+int numOfChar;
+size_t size;
+
+
+
+// Get input
+numOfChar = getline(&input, &size, stdin); 
+if (numOfChar == -1) {
+  printf("No input read.");
+  exit();
+
+
+// Execute the command
+
+
+// Error handle
+
+
+  return 0;
+}

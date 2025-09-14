@@ -1,0 +1,29 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+
+  // Variables
+  char *input = NULL;
+  int numOfChar;
+  size_t size;
+
+  // Get input
+  numOfChar = getline(&input, &size, stdin);
+  if (numOfChar == -1) {
+    printf("No input read.");
+    exit(EXIT_FAILURE);
+  }
+
+  // Execute the command
+  
+
+  // Error handle
+
+    return 0;
+  }

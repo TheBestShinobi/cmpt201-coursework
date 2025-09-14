@@ -1,0 +1,60 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+
+  // Copy below process with fork() and waitpid()
+  // fork();
+  // waitpid();
+
+  // Variables
+  char *input = NULL;
+  char *savedptr, *token, *arg, *path, *line;
+  int numOfChar;
+  size_t size = 0;
+  pid_t pid;
+
+  // Get input
+  printf("Enter programs to run.\n");
+  numOfChar = getline(&input, &size, stdin);
+  line = input;
+
+  printf("This is my input to begin with: %s\n", input);
+  // Error handling
+  if (numOfChar == -1) {
+    printf("No input read.");
+    exit(EXIT_FAILURE);
+  }
+
+
+  // Extract each word from input
+  token = strtok_r(input, "/", &savedptr);
+
+  printf("Ok lets see if we saved the line: %s\n", line);
+
+  // Iterate through all words and save the last one
+  while (token != NULL) {
+    arg = token;
+    token = strtok_r(NULL, "/", &savedptr);
+  }
+
+  printf("\nThe last word (aka argument) is: %s\n", arg);
+  printf("\nYour input is: %s\n", input);
+
+  // Execute the command
+  if ((execl(input, arg)) == 0) {
+    printf("Error executing the command");
+    exit(EXIT_FAILURE);
+  }
+  // Error handle
+
+  free(input);
+  return 0;
+}
