@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+
+  int pid;
+  pid = fork();
+
+  printf("Your PID: %d", pid);
+
+  if (pid == 0) {
+    printf("You are the parent!");
+  }
+
+  else if (pid == -1) {
+    printf("Somethings wrong!!!!!!!");
+  }
+
+  else {
+    printf("You are a child!");
+  }
+
+}

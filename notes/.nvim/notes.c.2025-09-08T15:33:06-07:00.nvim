@@ -1,0 +1,50 @@
+// OS STACK: layers of services, each buildering on lower layer
+// SYSTEMS PROGRAMMING: low-level programming that directly interacts with hardware or the OS often
+// using the syscall interface
+//
+// TWO fundemental components in computing
+// 1. computations: handled by the CPU
+// 2. data: handled by memory (RAM)
+//
+// von Neumann architecture = modern day computers
+// - fetch data from memory to provide to CPU
+//
+// HARDWARE COMPONENTS: CPU, memory, I/O devices
+//
+//        Problem:
+// - CPU was getting faster, so memory access had to get faster too
+// - but speed of memory access is limited! (by memory chip speed)
+//
+//
+//        How to solve the issues:
+// REGISTERS: very small memory inside a CPU; holds data items from
+// memory. (also very close to CPU -> faster to access data
+//
+// CACHE: larger in size than registers, smaller than memory though
+//
+//goal: we want CPU to feel like it has access to a HUGE amoutn of
+//CHEAP fast memory
+//
+//Trade offs: 1.cost, 2.distance and access speed, 3.persistence
+//(aka if power goes off, what data is retained), 4.reliaability
+//(wear and tear)
+//
+//INSTRUCTION SET ARCHEITECTURE (ISA): defines a set of instructions theCPU can perform.
+//
+//-> the 32-bit vs 64-bit determines the REGISTER size!!
+//
+//- all pointers are the same size regardless of data type
+//-> register size = pointer variable size
+//-> address space size: pointer size controls the size of memory
+//address space
+//
+//--> house analogy ABCD ans: C) 1,000,000
+//
+//- each byte has an address
+//
+//--> ABCD pointer values ans: D)
+//--> ABCD memory Q1 ans: C)
+//--> ABCD memory Q2 ans: B)
+//
+//- why are most computers 64-bit? ans: lets us address 2^64 bytes mem
+//--> ABCD why 64-bits ans: C)

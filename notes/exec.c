@@ -1,0 +1,27 @@
+// Something
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+  // Variables
+  pid_t pid;
+  char *args[] = {"/bins/ls", "-a", "-l", "-h", NULL};
+
+  // Create child process
+  pid = fork();
+
+  // If you're the parent, call exec
+  if (pid != 0) {
+    execl("/bin/ls", "bin/ls", "-a", NULL);
+  }
+
+  // Error handling
+  else if (pid == -1) {
+    printf("Whoopies something went wrong.\n");
+  }
+  // If you're the child, call exec w/ dif output
+  else {
+    execv("bin/ls", args);
+  }
+}

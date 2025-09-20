@@ -1,0 +1,53 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+
+  // Variables
+  char *input = NULL;
+  int numOfCharRead, errors;
+  size_t size = 0;
+  pid_t pid;
+
+  // !!!! WHEN U IMPLIMENT WHILE LOOP FOREVER, un commend read error continue.
+
+  // Get input
+  printf("Enter programs to run.\n");
+  numOfCharRead = getline(&input, &size, stdin);
+
+  // Error handle having nothing read in from input
+  if (numOfCharRead == -1) {
+    printf("Nothing was read.");
+    // continue;
+  }
+  // Fork to get a child to process the command
+  pid = fork();
+
+  // If child, execute the command
+  if (pid == 0) {
+    // errors = execl("/home/cmpt201/cmpt201-coursework/lab2.c", input, NULL);
+    errors = execl("/bin/ls", "/bin/ls", input, NULL);
+
+    // Handle exec errors
+    if (errors == -1) {
+      perror("Exec failure\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  // Error handle bad fork
+  else if (pid == -1) {
+    perror("Fork error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  free(input);
+  return 0;
+}

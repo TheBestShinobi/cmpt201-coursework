@@ -1,0 +1,88 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int isLastWord(const char *ptr) {
+  // Simulate if next next token will be null
+  return ((strtok_r(NULL, "/", &ptr) == NULL));
+}
+
+int main() {
+
+  // Variables
+  char *input = NULL;
+  char *savedptr, *token, *arg, path[100];
+  int numOfChar, errors;
+  size_t size = 0;
+  pid_t pid;
+
+  // Get input
+  printf("Enter programs to run.\n");
+  numOfChar = getline(&input, &size, stdin);
+
+  // Fork to get a child to process the command
+  pid = fork();
+
+  // If child, execute the command
+  if (pid == 0) {
+    errors = execl("/home/cmpt201/cmpt201-coursework/lab2.c", input, NULL);
+  }
+
+  // Error handle bad fork
+  elif (pid == -1) {
+    perror("Fork error\n");
+    exit(EXIT_FALIURE);
+  }
+
+  free(input);
+  return 0;
+
+  /*
+  printf("This is my input to begin with: %s\n", input);
+  // Error handling
+  if (numOfChar == -1) {
+    perror("No input read.");
+    exit(EXIT_FAILURE);
+  }
+
+  // Extract each word from input
+  token = strtok_r(input, "/", &savedptr);
+  strcat(path, token);
+  strcat(path, "/");
+
+  // Iterate through all words and save the last one
+  while (token != NULL) {
+    arg = token;
+    token = strtok_r(NULL, "/", &savedptr);
+    printf("\n\n\nProcessing token: %s\n", token);
+    // If its not the last word, add current word to path
+    // Fork to test if next word will be the last (if its null)
+
+
+    if (isLastWord(savedptr) == 0) {
+      strcat(path, token);
+      strcat(path, "/");
+    }
+  }
+
+  printf("%s\n", token);
+  printf("\nThe last word (aka argument) is: %s\n", arg);
+  printf("\nPath correct?: %s\n", path);
+
+  // Execute the command
+  if ((execl(path, arg)) == -1) {
+    perror("Error executing the command");
+    exit(EXIT_FAILURE);
+  }
+  // Error handle
+
+  free(input);
+  return 0;
+  */
+}
