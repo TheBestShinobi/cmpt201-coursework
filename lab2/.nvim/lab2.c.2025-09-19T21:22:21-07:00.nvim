@@ -57,6 +57,7 @@ int main() {
         exit(EXIT_FAILURE);
       }
     }
-  }
+  free(input);
   return 0;
+  }
 }

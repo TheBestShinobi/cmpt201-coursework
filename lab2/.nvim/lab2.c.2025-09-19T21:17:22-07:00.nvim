@@ -9,14 +9,14 @@
 #include <unistd.h>
 
 int main() {
-
-  char *input = NULL;
-  size_t size = 0;
-
-  while (1) {
+  while(1) {
     // Variables
+    char *input = NULL;
     int numOfCharRead, errors, status;
+    size_t size = 0;
     pid_t pid, waiter;
+
+    // !!!! WHEN U IMPLIMENT WHILE LOOP FOREVER, un commend read error continue.
 
     // Get input
     printf("\nEnter programs to run.\n");
@@ -25,7 +25,7 @@ int main() {
     // Error handle having nothing read in from input
     if (numOfCharRead == -1) {
       printf("Nothing was read.");
-      continue;
+      // continue;
     }
     input[numOfCharRead - 1] = '\0';
 
@@ -56,7 +56,9 @@ int main() {
         perror("waitpid failed!");
         exit(EXIT_FAILURE);
       }
+
+      free(input);
+      return 0;
     }
   }
-  return 0;
 }

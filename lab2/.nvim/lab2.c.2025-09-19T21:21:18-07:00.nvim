@@ -56,7 +56,9 @@ int main() {
         perror("waitpid failed!");
         exit(EXIT_FAILURE);
       }
+
+      free(input);
+      return 0;
     }
   }
-  return 0;
 }

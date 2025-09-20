@@ -9,14 +9,14 @@
 #include <unistd.h>
 
 int main() {
-
+  
   char *input = NULL;
-  size_t size = 0;
 
   while (1) {
     // Variables
     int numOfCharRead, errors, status;
-    pid_t pid, waiter;
+    size_t size = 0;
+    pid_t pid, waiter; 
 
     // Get input
     printf("\nEnter programs to run.\n");
@@ -56,7 +56,9 @@ int main() {
         perror("waitpid failed!");
         exit(EXIT_FAILURE);
       }
+
+      free(input);
+      return 0;
     }
   }
-  return 0;
 }
