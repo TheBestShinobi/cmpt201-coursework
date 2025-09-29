@@ -1,0 +1,20 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define _POSIX_C_SOURCE 200809L
+
+int main() {
+  size_t size = 0;
+  char *buffer = NULL;
+  char *history[5];
+  int inputNum = 0;
+
+  // Read the users input;
+  if (getline(&buffer, &size, stdin) == -1) {
+    perror("Error reading input.\n");
+    exit(EXIT_FAILURE);
+  } else {
+    // Add the line to the history
+    addHistory(buffer, );
+  }
+}

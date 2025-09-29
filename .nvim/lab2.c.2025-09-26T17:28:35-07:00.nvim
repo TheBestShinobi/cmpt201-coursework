@@ -1,0 +1,62 @@
+// Title: Lab 2
+// Name: Mitchell Verma
+// Date: Sept 13, 2025
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+
+  char *input = NULL;
+  size_t size = 0;
+
+  while (1) {
+    // Variables
+    int numOfCharRead, errors, status;
+    pid_t pid, waiter;
+
+    // Get input
+    printf("\nEnter programs to run.\n");
+    numOfCharRead = getline(&input, &size, stdin);
+
+    // Error handle having nothing read in from input
+    if (numOfCharRead == -1) {
+      printf("Nothing was read.");
+      continue;
+    }
+    input[numOfCharRead - 1] = '\0';
+
+    // Fork to get a child to process the command
+    pid = fork();
+
+    // If child, execute the command
+    if (pid == 0) {
+      errors = execl(input, input, (char *)NULL);
+
+      // Handle exec errors
+      if (errors == -1) {
+        perror("Exec failure\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+
+    // Error handle bad fork
+    else if (pid == -1) {
+      perror("Fork error\n");
+      exit(EXIT_FAILURE);
+    }
+
+    // Wait for the child to finish before continueing
+    else {
+      waiter = waitpid(pid, &status, 0);
+      if (waiter == -1) {
+        perror("waitpid failed!");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
+  return 0;
+}

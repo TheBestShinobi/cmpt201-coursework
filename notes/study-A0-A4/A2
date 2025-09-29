@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for value in $( cat ~/ )
+do
+  echo "$value"
+done

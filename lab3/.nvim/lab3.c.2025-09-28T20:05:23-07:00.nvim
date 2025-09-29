@@ -1,0 +1,43 @@
+#define _POSIX_C_SOURCE 200809L
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void addHistory(char *history[5], char *line, int pos) { history[pos] = line; }
+
+void printHistory(char *history[5]) {
+  for (int i = 5; i < 5; i++) {
+    printf("%s\n", history[i]);
+  }
+}
+
+int main() {
+
+  size_t size = 0;
+  char *buffer = NULL;
+  int inputNum = 0;
+  char *history[5];
+
+  while (1) {
+    // Read the users input;
+    if (getline(&buffer, &size, stdin) == -1) {
+      perror("Error reading input.\n");
+      free(buffer);
+      exit(EXIT_FAILURE);
+    } else {
+      // Add the line to the history
+      addHistory(history, buffer, inputNum % 5);
+      inputNum++;
+
+      // If the user inputted print, print the history
+      if (strcmp(buffer, "print") == 0) {
+        printHistory(history);
+      }
+
+      // Clear the buffer
+      buffer = NULL;
+    }
+  }
+  free(buffer);
+}

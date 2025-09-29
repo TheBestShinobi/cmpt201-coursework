@@ -1,0 +1,13 @@
+#include <stdio.h>
+#define _POSIX_C_SOURCE 200809L
+
+int main() {
+  int size = 100;
+  char *buffer[size];
+
+  // Read the users input;
+  if (getline(buffer, &size, stdin) == -1) {
+    perror("Error reading input.\n");
+    exit(EXIT_FAILURE);
+  }
+}
