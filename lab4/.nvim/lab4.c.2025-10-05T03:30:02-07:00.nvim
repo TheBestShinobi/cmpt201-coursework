@@ -1,0 +1,111 @@
+#define _DEFAULT_SOURCE
+#define _ISOC99_SOURCE
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+// Make a struct for the header
+struct header {
+  uint64_t size;
+  struct header *next;
+};
+
+// Function to initialize a block of the heap
+struct header *initialize_block(void *blk_ptr, struct header *next_ptr) {
+  // Make and place the header in the block
+  struct header *info = (struct header *)blk_ptr;
+  info->size = 128;
+  info->next = next_ptr;
+  return info;
+}
+
+// Function to print out the blocks details
+int print_out(char *format, void *data, size_t data_size) {
+  int BUF_SIZE = 64;
+  char buf[BUF_SIZE];
+  ssize_t len = snprintf(buf, BUF_SIZE, format,
+                         data_size == sizeof(uint64_t) ? *(uint64_t *)data
+                                                       : *(void **)data);
+  if (len < 0) {
+    perror("snprintf");
+    return -2;
+  }
+
+  write(STDOUT_FILENO, buf, len);
+  return 1;
+}
+
+// Main function
+int main() {
+
+  // Increase the size of heap by 256 bytes
+  void *program_brk = sbrk(256);
+  if (program_brk == (void *)-1) {
+    perror("Increasing heap size failed (sbkr)");
+    return -1;
+  }
+
+  // Initialize the first block
+  struct header *blk1 = initialize_block(program_brk, NULL);
+
+  // Initialize the second block
+  struct header *blk2 = initialize_block(program_brk + blk1->size, blk1);
+
+  // Initialize the blocks contents
+  char *start1 = (char *)(blk1 + 1);
+  char *start2 = (char *)(blk2 + 1);
+
+  size_t usable_size1 = blk1->size - sizeof(struct header);
+  size_t usable_size2 = blk2->size - sizeof(struct header);
+
+  // Check location of blks are not corrupt
+  print_out("first block:     %p\n", &blk1, sizeof(blk1));
+  print_out("second block:      %p\n", &blk2, sizeof(blk2));
+
+  memset(start1, 0, usable_size1);
+  memset(start2, 1, usable_size2);
+
+  // Print out info for both blocks
+  if (blk1 != NULL && blk2 != NULL) {
+    print_out("first block:     %p\n", &blk1, sizeof(blk1));
+    print_out("second block:      %p\n", &blk2, sizeof(blk2));
+    print_out("first block size:  %lu\n", &blk1->size, sizeof(blk1->size));
+
+    if (blk1->next != NULL) {
+      print_out("first block next: %p\n", blk1->next, sizeof(blk1->next));
+    } else {
+      print_out("first block next:  %s\n", "(nil)", sizeof("(nil)"));
+    }
+
+    print_out("second block size: %lu\n", &blk2->size, sizeof(blk2->size));
+    if (blk1->next != NULL) {
+      print_out("first block next: %p\n", blk1->next, sizeof(blk1->next));
+    } else {
+      print_out("first block next:  %s\n", "(nil)", sizeof("(nil)"));
+    }
+
+    // Print out the data in each memory block
+    for (char *i = start1; i < start1 + usable_size1; i++) {
+      uint64_t val = (uint64_t)(*i);
+      print_out("%d\n", &val, sizeof(val));
+    }
+    
+     for (char *i = start2; i < start2 + usable_size2; i++) {
+      uint64_t val = (uint64_t)(*i);
+      print_out("%d\n", &val, sizeof(val));
+    }
+
+
+
+
+    //for (char *i = start2; i < start2 + usable_size2; i++) {
+      //print_out("%d\n", i, sizeof((uint64_t)*i));
+    //}
+
+  } else {
+    write(STDOUT_FILENO, "Somethings up! no blk1 location (its NULL)\n", 42);
+  }
+
+  return 0;
+}

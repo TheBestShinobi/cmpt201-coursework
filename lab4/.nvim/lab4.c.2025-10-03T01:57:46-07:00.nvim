@@ -1,0 +1,22 @@
+#define _DEFAULT_SOURCE
+#include <stdint.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+
+  // Increase the size of heap by 256 bytes
+  void* program_brk = sbrk(256);
+  if (program_brk == (void *)-1) {
+    perror("Increasing heap size failed (sbkr)");
+    return -1;
+  }
+
+  return 0;
+}
+
+// Make a struc for the header
+
+// Initialize the first block
+
+// Initialize the second block

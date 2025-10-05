@@ -1,0 +1,39 @@
+#define _DEFAULT_SOURCE
+#define _ISOC99_SOURCE
+#include <stdint.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void* initialize_block(blk_ptr) {
+  // Make and place the header in the block
+  stuct header 
+
+
+
+
+}
+
+int main() {
+
+  // Increase the size of heap by 256 bytes
+  void *program_brk = sbrk(256);
+  if (program_brk == (void *)-1) {
+    perror("Increasing heap size failed (sbkr)");
+    return -1;
+  }
+
+  // Make a struct for the header
+  struct header {
+    unit64_t size;
+    struct header* next;
+  };
+
+  // Initialize the first block
+
+
+  return 0;
+}
+
+// Initialize the first block
+
+// Initialize the second block
