@@ -36,8 +36,9 @@ void *handle_client(void *arg) {
   char buffer[BUF_SIZE];
   int bytes_read = 0;
 
-  printf("New client created! ID %d on socket FD %d\n", client->client_id,
-         client->cfd);
+
+    printf("New client created! ID %d on socket FD %d\n", client->client_id,
+           client->cfd);
   // TODO: print the message received from client
   while ((bytes_read = read(client->cfd, buffer, BUF_SIZE)) > 0 &&
          errno != EAGAIN) {
@@ -47,7 +48,7 @@ void *handle_client(void *arg) {
 
     // TODO: increase total_message_count per message
     total_message_count++;
-    printf("Msg #   %d; Client ID %d: %s\n", total_message_count,
+    printf("Msg #   %d; Client ID %d: %s/n", total_message_count,
            client->client_id, buffer);
 
     pthread_mutex_unlock(&count_mutex);
