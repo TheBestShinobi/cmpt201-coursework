@@ -225,14 +225,14 @@ static void *run_acceptor(void *args) {
 
   // Shutdown and cleanup
   for (int i = 0; i < num_clients; i++) {
-    // TODO: Set flag to stop the client thread
+    // TODO: Set flag to stop the client thread 
     client_args[i].run = false;
 
     // TODO: Wait for the client thread and close its socket
     pthread_join(threads[i], NULL);
     if (close(client_args[i].cfd) == -1) {
-      perror("closing client socket");
-    }
+    perror("closing client socket");
+}
   }
 
   if (close(sfd) == -1) {
@@ -267,7 +267,6 @@ int main() {
     // Calculate now many messages there are
     pthread_mutex_lock(&list_mutex);
     if (list_handle.count >= MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
-      pthread_mutex_unlock(&list_mutex);
       break;
     }
     pthread_mutex_unlock(&list_mutex);

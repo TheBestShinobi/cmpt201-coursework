@@ -267,7 +267,6 @@ int main() {
     // Calculate now many messages there are
     pthread_mutex_lock(&list_mutex);
     if (list_handle.count >= MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
-      pthread_mutex_unlock(&list_mutex);
       break;
     }
     pthread_mutex_unlock(&list_mutex);

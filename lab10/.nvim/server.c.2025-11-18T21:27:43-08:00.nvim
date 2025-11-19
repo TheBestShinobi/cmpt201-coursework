@@ -267,10 +267,12 @@ int main() {
     // Calculate now many messages there are
     pthread_mutex_lock(&list_mutex);
     if (list_handle.count >= MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
-      pthread_mutex_unlock(&list_mutex);
+      if (close(client_args[i].cfd) == -1) {
+    perror("closing client socket");
+}ls
+
       break;
     }
-    pthread_mutex_unlock(&list_mutex);
   }
 
   aargs.run = false;
