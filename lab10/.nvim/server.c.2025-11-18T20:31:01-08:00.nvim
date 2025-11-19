@@ -229,7 +229,7 @@ static void *run_acceptor(void *args) {
     client_args[i].run = false;
 
     // TODO: Wait for the client thread and close its socket
-    pthread_join(threads[i], NULL);
+    pthread_join(threads[num_clients], NULL);
     if (close(client_args[i].cfd) == -1) {
       perror("closing client socket");
     }
@@ -266,21 +266,19 @@ int main() {
   for (;;) {
     // Calculate now many messages there are
     pthread_mutex_lock(&list_mutex);
-    if (list_handle.count >= MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
+    if (list_handle.count < MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
       break;
     }
     pthread_mutex_unlock(&list_mutex);
   }
 
-  aargs.run = false;
   pthread_join(acceptor_thread, NULL);
+  aargs.run = false;
 
-  pthread_mutex_lock(&list_mutex);
   if (list_handle.count != MAX_CLIENTS * NUM_MSG_PER_CLIENT) {
     printf("Not enough messages were received!\n");
     return 1;
   }
-  pthread_mutex_unlock(&list_mutex);
 
   int collected = collect_all(head);
   printf("Collected: %d\n", collected);
