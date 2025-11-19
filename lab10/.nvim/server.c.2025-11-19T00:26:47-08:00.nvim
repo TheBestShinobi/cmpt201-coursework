@@ -42,8 +42,7 @@ Why are these sockets made non-blocking? What purpose does it serve:
   clients rather than have to stop accepting clients if there is
   already one accepted and wait for it to fully go through its whole
   process. The clients sockets are made non-blocking too so when
-  reading data from it, the program wont wait forever to read if
-  there is nothing to read.
+  reading data from it, the program wont wait forever to read if there is nothing to read.
 */
 
 #include <arpa/inet.h>
